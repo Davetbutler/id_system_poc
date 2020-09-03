@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "type": "object",
+  "description": "Records to be inserted into the health table",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "registered_doctor": {
+      "type": "string"
+    },
+    "has_asthma": {
+      "type": "boolean"
+    },
+    "has_registered_disability": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "registered_doctor",
+    "has_asthma",
+    "has_registered_disability"
+  ],
+  "additionalProperties": false,
+  "minProperties": 4,
+  "maxProperties": 4
+}
