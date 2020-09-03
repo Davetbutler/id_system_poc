@@ -97,7 +97,7 @@ class DatabaseQueries(DatabaseInitialLogin):
 
         return
 
-    def id_exists_health_table(self, record : Dict) -> None:
+    def id_exists_health_table(self, id : int) -> None:
 
         '''
         Method to check the ID is not already in the health table
@@ -108,12 +108,9 @@ class DatabaseQueries(DatabaseInitialLogin):
               'has_registered_disability': False}
         '''
 
-        id = record['id']
+        query = f'''SELECT COUNT(*) FROM health_table WHERE id = {id};'''
 
-        query = f'''SELECT CAST(CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS BIT)
-                    FROM health_table WHERE id = {id};'''
-
-        if self.send_query(query).export('df')['bit'].to_list()[0] == '1':
+        if self.send_query(query).export('df')['count'].to_list()[0] > 1:
             id_exists = True
         else:
             id_exists = False
@@ -163,5 +160,42 @@ class DatabaseQueries(DatabaseInitialLogin):
             {insert_tuple}
         '''
         self.send_query(query)
+
+        return
+
+    def health_dept_access_granted(self, name_wanting_access : str, password : str) -> bool:
+
+        '''
+        Method to check if the party wanting to query the db has access, and if the password is valid
+        Input: name_wanting_acess - name of entity wanting acccess
+               password - password stored against the name in the health_dept_access table
+        Output: boolean depending on whether access is granted or not
+        '''
+
+        # check name is in db
+        query_name = f"SELECT COUNT(*) FROM health_dept_access WHERE name = '{name_wanting_access}' "
+
+        name_in_db = self.send_query(query_name).export('df')['count'].to_list()[0]
+
+        if not name_in_db:
+            logger.info(f'{name_wanting_access} is not registered as having autthorise access to this db')
+            return False
+
+        # check password is correct for given name
+
+        query_password = f"SELECT password FROM health_dept_access WHERE name = '{name_wanting_access}'"
+
+        password_in_db = self.send_query(query_password).export('df')['password'].to_list()[0]
+
+        if password_in_db == password:
+            access_granted = True
+        else:
+            logger.info('incorrect password given')
+            access_granted = False
+
+        return access_granted
+
+
+
 
         return

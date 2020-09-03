@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS health_table (
       record_created_at TIMESTAMP DEFAULT now(),
       record_updated_at TIMESTAMP DEFAULT now()
   );
+
+  CREATE TABLE IF NOT EXISTS health_dept_access (
+       name TEXT CONSTRAINT health_dept_access_pk PRIMARY KEY,
+       password TEXT,
+       record_created_at TIMESTAMP DEFAULT now(),
+       record_updated_at TIMESTAMP DEFAULT now()
+   );
