@@ -91,6 +91,7 @@ class DatabaseQueries(DatabaseInitialLogin):
 
         query = f'''UPDATE health_table SET {set_update} WHERE id = {id_to_update};
                 '''
+        print(query)
         logger.info(f'Sending following query: {query}')
 
         self.send_query(query)
@@ -110,7 +111,7 @@ class DatabaseQueries(DatabaseInitialLogin):
 
         query = f'''SELECT COUNT(*) FROM health_table WHERE id = {id};'''
 
-        if self.send_query(query).export('df')['count'].to_list()[0] > 1:
+        if self.send_query(query).export('df')['count'].to_list()[0] > 0:
             id_exists = True
         else:
             id_exists = False

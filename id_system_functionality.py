@@ -148,7 +148,7 @@ def health_table_insert(record: Dict) -> str:
         logger.info(f"Records to be inserted are: {record}")
 
         # check in health table for already existing id
-        id_exists = db.id_exists_health_table(record)
+        id_exists = db.id_exists_health_table(id)
 
         # if no duplicate then insert records
         if not id_exists:
@@ -229,8 +229,8 @@ def health_table_update(
 
     # check to see if the id is in the table
 
-    id_exists = db.id_exists_health_table(id)
-
+    id_exists = db.id_exists_health_table(id_to_update)
+    print(id_exists)
     if id_exists:
 
         # try to update record
@@ -267,7 +267,7 @@ def health_table_update(
             output = "update failed"
     else:
 
-        logger.info(f"id: {id} does not exist in health_table")
+        logger.info(f"id: {id_to_update} does not exist in health_table")
         update_log["successful"] = False
 
         logger.info(
@@ -340,7 +340,7 @@ if __name__ == "__main__":
 
     initial_user_record = {"name": "david"}
 
-    # registration(initial_user_record)
+    registration(initial_user_record)
 
     # If you run SELECT * FROM id_register; you should see that the id_register table has its first entry
 
@@ -349,8 +349,8 @@ if __name__ == "__main__":
     # method does not allow for this. Run the following to see this in action.
     # Note you will need to change this for the id that is in the table (they are randomly generated)
 
-    id = 7459
-    # registration_insert_record(id, initial_user_record)
+    id = 2042
+    #registration_insert_record(id, initial_user_record)
 
     # hopefully you will have seen that things are being 'logged' into a json file.
     # open the relevant files and you should see that insertions are being logged as successes of failures.
@@ -371,19 +371,19 @@ if __name__ == "__main__":
         "has_registered_disability": False,
     }
 
-    # health_table_insert(initial_health_record_fail)
+    #health_table_insert(initial_health_record_fail)
 
     # Now let us insert a valid health record in the health table
     # NB: you will have to change the id to the id that is in the id_register table
 
     initial_health_record = {
-        "id": 7459,
+        "id": 2042,
         "registered_doctor": "doctor1",
         "has_asthma": False,
         "has_registered_disability": False,
     }
 
-    # health_table_insert(initial_health_record)
+    #health_table_insert(initial_health_record)
 
     # If you check the health_table you will see the inserted record
 
@@ -400,7 +400,7 @@ if __name__ == "__main__":
     # 2. id_to_update: this is the id that is to be updated
     # 3. records_to_update: the dictionary given above.
 
-    # health_table_update(1, 7459, updated_record)
+    #health_table_update(1, 2042, updated_record)
 
     # If you check the health_table you should see that the record has been updated.
 
@@ -411,14 +411,14 @@ if __name__ == "__main__":
         "has_registered_disability": True,
     }
 
-    # health_table_update(1, 7459, updated_record_fail)
+    #health_table_update(1, 2042, updated_record_fail)
 
     # We see that the update is not sucessful, and is logged.
 
     # Let us also check that the update is unsuccessful if the id does not exist in the health_table
     # Again we assume that id = 1 is not in the table
 
-    # health_table_update(1, 1, updated_record_fail)
+    #health_table_update(1, 1, updated_record_fail)
 
     # Now we move onto how another govt department may request access and be able too query another database
     # To do this we use the following method, we assume the welfare dept wants to query the health dept database (health_table):
@@ -433,15 +433,15 @@ if __name__ == "__main__":
     # Now let us use these credentials to query the health_table.
     #  First let us see what a successful query looks like, change the id to the one in your table
 
-    id = 7459
+    id = 2042
     query = f"SELECT * FROM health_table WHERE id = {id};"
-    print(health_table_query("welfare_dept", "welfare", query))
+    #print(health_table_query("welfare_dept", "welfare", query))
 
     # Let us see what happens when the wrong password or wrong user name
 
-    print(health_table_query("wrong_user_name", "welfare", query))
+    #print(health_table_query("wrong_user_name", "welfare", query))
 
-    print(health_table_query("welfare_dept", "wrong password", query))
+    #print(health_table_query("welfare_dept", "wrong password", query))
 
     # There are likley to be many bugs for edge cases, but hopefully this has given you an idea on what the functionality is at present,
     # and gives enough for you to come to a conclusion about whether this is useful or not to expand on.
