@@ -135,7 +135,7 @@ class DatabaseQueries(DatabaseInitialLogin):
 
         return id_in_use
 
-    def register_insert_record(self, id, record):
+    def register_insert_record(self, record):
 
         # check the inputted recoord is valid.
         with open("json_validators/register_input_to_id_table.json", 'r') as f:
@@ -151,7 +151,6 @@ class DatabaseQueries(DatabaseInitialLogin):
             logger.info(f'inputed records are not valid: {record}')
             return None
 
-        record['id'] = id
         insert_tuple = (record['id'], record['name'])
 
         query = f'''
