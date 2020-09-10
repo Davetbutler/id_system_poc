@@ -1,0 +1,3 @@
+{'id': 7795, 'registered_doctor': 'doc', 'has_asthma': True, 'has_registered_disability': True, 'successful': True} 
+{'id': 7795, 'registered_doctor': 'doc', 'has_asthma': True, 'has_registered_disability': True, 'successful': False} 
+{'id': 2733, 'registered_doctor': 'doc', 'has_asthma': True, 'has_registered_disability': True, 'successful': True} 

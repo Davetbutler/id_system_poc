@@ -1,0 +1,2 @@
+{'querier': 'welfare_dept', 'dept_queried': 'health  dept', 'id_queried': 7795, 'atttribute_queried': 'has_registered_disability', 'query_time': datetime.datetime(2020, 9, 9, 16, 56, 42, 408483)} 
+{'querier': 'welfare_dept', 'dept_queried': 'health  dept', 'id_queried': 2733, 'atttribute_queried': 'has_registered_disability', 'query_time': datetime.datetime(2020, 9, 10, 11, 21, 48, 786415)} 

@@ -12,7 +12,7 @@ from db_initialise import DatabaseInitialLogin
 
 logging.basicConfig(format='%(name)s - %(asctime)s - %(message)s',
         datefmt='%d-%b-%y %H:%M:%S', level=logging.INFO)
-logger = logging.getLogger('database client')
+logger = logging.getLogger('database operations')
 
 class DatabaseQueries(DatabaseInitialLogin):
 
@@ -194,8 +194,3 @@ class DatabaseQueries(DatabaseInitialLogin):
             access_granted = False
 
         return access_granted
-
-
-
-
-        return

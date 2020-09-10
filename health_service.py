@@ -20,9 +20,9 @@ logger = logging.getLogger("Health Service")
 
 class HealthServiceClient(DatabaseQueries):
 
-    HEALTH_TABLE_INSERT_LOG = "health_table_insert_log.json"
-    HEALTH_TABLE_QUERY_LOG = "health_table_query_log.json"
-    HEALTH_TABLE_UPDATE_LOG = "health_table_update_log.json"
+    HEALTH_TABLE_INSERT_LOG = "logs/health_table_insert_log.json"
+    HEALTH_TABLE_QUERY_LOG = "logs/health_table_query_log.json"
+    HEALTH_TABLE_UPDATE_LOG = "logs/health_table_update_log.json"
 
     def __init__(self):
         self.logger = logging.getLogger('Health Service')
@@ -62,7 +62,7 @@ class HealthServiceClient(DatabaseQueries):
 
             # if no duplicate then insert records
             if not id_exists:
-                print(record)
+
                 db.insert_health_records(record)
 
                 # update insert log
@@ -120,11 +120,16 @@ class HealthServiceClient(DatabaseQueries):
 
         """
 
+        records_to_update  = {'registered_doctor': doctor,
+                              'has_asthma': has_asthma,
+                              'has_registered_disability': has_registered_disability}
+
         # construct basic update log
         update_log = {
             "updated_by": updated_by,
             "record_updated": id_to_update,
             "updated_to": records_to_update,
+            "updated_at": datetime.datetime.now()
         }
 
         inputs_all_none = (doctor is None) and (has_asthma is None) and (has_registered_disability is None)
@@ -143,9 +148,6 @@ class HealthServiceClient(DatabaseQueries):
 
             return None
 
-        records_to_update  = {'registered_doctor': doctor,
-                              'has_asthma': has_asthma,
-                              'has_registered_disability': has_registered_disability}
 
         # initialise DB
 
@@ -215,9 +217,10 @@ class HealthServiceClient(DatabaseQueries):
         db = DatabaseQueries()
 
         query = f"SELECT id, {attribute} FROM health_table WHERE id = {id};"
-        print(query)
 
-        query_log = {"queried_by": queried_by, "query": query}
+        query_log = {"queried_by": queried_by,
+                     "query": query,
+                     "queried_at": datetime.datetime.now()}
 
         access_granted = db.health_dept_access_granted(queried_by, password)
 

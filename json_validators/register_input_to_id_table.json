@@ -14,7 +14,7 @@
     "id",
     "name"
   ],
-  "additionalProperties": false,
-  "minProperties": 2,
-  "maxProperties": 2
+  "additionalProperties": true,
+  "minProperties": 3,
+  "maxProperties": 3
 }

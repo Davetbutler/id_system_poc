@@ -20,10 +20,8 @@ logger = logging.getLogger("Registration")
 
 class Registration(DatabaseQueries):
 
-    REGISTRATION_RECORD_LOG = "registration_record_log.json"
-    HEALTH_TABLE_INSERT_LOG = "health_table_insert_log.json"
-    HEALTH_TABLE_QUERY_LOG = "health_table_query_log.json"
-    HEALTH_TABLE_UPDATE_LOG = "health_table_update_log.json"
+    REGISTRATION_RECORD_LOG = "logs/registration_record_log.json"
+
     SIZE_OF_ID_SPACE = 10000
 
     def __init__(self):
@@ -45,21 +43,9 @@ class Registration(DatabaseQueries):
 
     def generate_user_id(self, name : str) -> int:
 
-        record ={"name": name}
+        record = {"name": name}
 
         db = DatabaseQueries()
-
-        with open("json_validators/register_inputs.json", "r") as f:
-            registation_input_schema = json.load(f)
-
-        try:
-
-            validate(instance=record, schema=registation_input_schema)
-            logger.info(f"record is valid input")
-
-        except:
-            logger.info(f"inputed records are not valid: {record}")
-            return None
 
         id = randrange(self.SIZE_OF_ID_SPACE)
 
@@ -85,6 +71,8 @@ class Registration(DatabaseQueries):
 
         record["id"] = id
         registration_insert_log = record
+        registration_insert_log["logged_at"] = datetime.datetime.now()
+
 
         if id_in_use:
             logger.info(f"id is already in use")

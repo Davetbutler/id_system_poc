@@ -4,7 +4,7 @@
   "description": "Records to be inserted into the health table",
   "properties": {
     "id": {
-      "type": "number"
+      "type": "integer"
     },
     "registered_doctor": {
       "type": "string"
